@@ -1,4 +1,4 @@
-class Node:
+﻿class Node:
     def __init__(self, value=None, operation=None, args=()):
         self.value = value
         self.operation = operation
@@ -16,11 +16,9 @@ class Tree:
         "cos": 1,
         "tg": 1,
         "ctg": 1,
-        "tan": 1,
-        "cot": 1,
         "sqrt": 1,
         "ln": 1,
-        "log": 1,
+        "log": 2,
         "exp": 1,
     }
 
@@ -35,9 +33,10 @@ class Tree:
         count = self.argument_counts.get(data)
 
         if count is None:
-            if not (data.isdecimal() or data.isidentifier()):
-                raise ValueError(f"Неизвестный токен: {data!r}")
-
+            is_number = data and all("0" <= char <= "9" for char in data)
+            is_variable = len(data) == 1 and data.isalpha()
+            if not (is_number or is_variable):
+                raise ValueError(f"Неизвестное значение: {data!r}")
             self.stack.append(Node(value=data))
             return
 
